@@ -62,22 +62,27 @@ var ConsoleLogHTML;
 
                 for (var i = 0; i < keys.length; i++) {
                     const method = keys[i];
-                    console[method] = function (msg) {
-                        var finalMsg = msg.toString();
-                        if (finalMsg === "[object Object]") {
-                            try {
-                                finalMsg = jsonStringify(msg);
-                            } catch (e) {
-
-                            }
+                    console[method] = function (msg, onlyConsole) {
+                        if (typeof(onlyConsole) !== TYPE_BOOLEAN) {
+                            onlyConsole = false;
                         }
-                        finalMsg = (includeTimestamp ? "[" + (new Date()).toLocaleTimeString() + "] " : "") + finalMsg;
-                        target.prepend($("<li data-level='" + method + "' class='" + options[method] + "'/>")
-                            .text(finalMsg)
-                        );
+                        if (!onlyConsole) {
+                            var finalMsg = msg.toString();
+                            if (finalMsg === "[object Object]") {
+                                try {
+                                    finalMsg = jsonStringify(msg);
+                                } catch (e) {
+
+                                }
+                            }
+                            finalMsg = (includeTimestamp ? "[" + (new Date()).toLocaleTimeString() + "] " : "") + finalMsg;
+                            target.prepend($("<li data-level='" + method + "' class='" + options[method] + "'/>")
+                                .text(finalMsg)
+                            );
+                        }
 
                         if (logToConsole && typeof(original[method]) !== TYPE_UNDEFINED) {
-                            original[method].apply(console, [finalMsg]);
+                            original[method].apply(console, [msg]);
                         }
                     };
                 }
