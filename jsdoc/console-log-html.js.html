@@ -28,43 +28,9 @@
         <article>
             <pre class="prettyprint source linenums"><code>/**
  * Console control namespace
- * @namespace ConsoleLogHTML
+ * @namespace
  */
-var ConsoleLogHTML = {
-    /**
-     * Default CSS classes
-     * @type Object
-     * @prop {string} error=text-danger The default CSS class for error messages
-     * @prop {string} warn=text-warning The default CSS class for warning messages
-     * @prop {string} info=text-success The default CSS class for info messages
-     * @prop {string} debug=text-info The default CSS class for debug messages
-     * @prop {string} log="" The default CSS class for log messages
-     */
-    DEFAULTS: {
-        error: "text-danger",
-        warn: "text-warning",
-        info: "text-success",
-        debug: "text-info",
-        log: ""
-    },
-    /**
-     * Return the console to its original state, without any overrides
-     * @function
-     */
-    disconnect: null,
-    /**
-     * Overwrite the original console.* methods and start outputting to screen
-     * @function
-     * @param {$|jQuery|HTMLUListElement} target The target &amp;lt;ul&amp;gt; element to output to. Can can either be a jQuery
-     * or vanilla JS HTMLUListElement.
-     * @param {Object} [options=ConsoleLogHTML.DEFAULTS] CSS class options. See {@link ConsoleLogHTML.DEFAULTS} for default values.
-     * @param {boolean} [includeTimestamp=true] Whether to include the log message timestamp in HTML
-     * @param {boolean} [logToConsole=true] Whether to continue logging to the console as well as HTML.
-     * @throws {Error} If target is not an &amp;lt;ul&amp;gt; element
-     */
-    connect: null
-};
-(function () {
+var ConsoleLogHTML = (function (console, Obj, TYPE_UNDEFINED, TYPE_BOOLEAN, INSTANCE_OBJECT_OBJECT) {
     'use strict';
     var original = {
             log: console.log,
@@ -74,16 +40,18 @@ var ConsoleLogHTML = {
             error: console.error
         },
         originalClear = console.clear,
+        jQueryIsUp = typeof($) !== TYPE_UNDEFINED ? $ : typeof(jQuery) !== TYPE_UNDEFINED ? jQuery : false,
         extend = function () {
             // Variables
             var extended = {},
                 deep = false,
                 i = 0,
+                prop,
                 merge = function (obj) {
-                    for (var prop in obj) {
-                        if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+                    for (prop in obj) {
+                        if (Obj.prototype.hasOwnProperty.call(obj, prop)) {
                             // If deep merge and property is an object, merge properties
-                            if (deep &amp;&amp; Object.prototype.toString.call(obj[prop]) === '[object Object]') {
+                            if (deep &amp;&amp; Obj.prototype.toString.call(obj[prop]) === INSTANCE_OBJECT_OBJECT) {
                                 extended[prop] = extend(true, extended[prop], obj[prop]);
                             } else {
                                 extended[prop] = obj[prop];
@@ -93,7 +61,7 @@ var ConsoleLogHTML = {
                 };
 
             // Check if a deep merge
-            if (Object.prototype.toString.call(arguments[0]) === '[object Boolean]') {
+            if (Obj.prototype.toString.call(arguments[0]) === '[object Boolean]') {
                 deep = arguments[0];
                 i++;
             }
@@ -105,86 +73,131 @@ var ConsoleLogHTML = {
             }
 
             return extended;
-
         };
 
-    ConsoleLogHTML.connect = function (target, options, includeTimestamp, logToConsole) {
-        if (target instanceof jQuery) {
-            target = target[0];
-        }
-        if (typeof(logToConsole) !== "boolean") {
-            logToConsole = true;
-        }
-        if (typeof(includeTimestamp) !== "boolean") {
-            includeTimestamp = true;
-        }
-        if (!(target instanceof HTMLUListElement)) {
-            throw new Error("The target must be a HTML &lt;ul> element");
-        } else {
-            options = extend(ConsoleLogHTML.DEFAULTS, options || {});
+    try {
+        return {
             /**
-             * Our object keys
-             * @type {string[]}
+             * Default CSS classes
+             * @type Object
+             * @memberof ConsoleLogHTML
+             * @prop {?string} error=text-danger The default CSS class for error messages
+             * @prop {?string} warn=text-warning The default CSS class for warning messages
+             * @prop {?string} info=text-success The default CSS class for info messages
+             * @prop {?string} debug=text-info The default CSS class for debug messages
+             * @prop {?string} log=null The default CSS class for log messages
              */
-            var keys = Object.keys(original),
-                /**
-                 * The li item we'll be appending
-                 * @type {HTMLLIElement}
-                 */
-                li,
-                /**
-                 * The message we'll be appending
-                 * @type {string}
-                 */
-                finalMsg;
-
-            for (var i = 0; i &lt; keys.length; i++) {
-                const method = keys[i];
-                console[method] = function (msg, onlyConsole) {
-                    if (typeof(onlyConsole) !== "boolean") {
-                        onlyConsole = false;
+            DEFAULTS: {
+                error: "text-danger",
+                warn: "text-warning",
+                info: "text-success",
+                debug: "text-info",
+                log: ""
+            },
+            /**
+             * Disconnect our console overrides, reverting to the original state
+             * @memberof ConsoleLogHTML
+             */
+            disconnect: function () {
+                var keys = Obj.keys(original);
+                for (var i = 0; i &lt; keys.length; i++) {
+                    if (typeof(original[keys[i]]) !== TYPE_UNDEFINED) {
+                        console[keys[i]] = original[keys[i]];
                     }
-                    if (!onlyConsole) {
-                        finalMsg = msg.toString();
-                        if (finalMsg === "[object Object]") {
-                            try {
-                                finalMsg = JSON.stringify(msg);
-                            } catch (e) {
+                }
+                if (typeof(originalClear) !== TYPE_UNDEFINED) {
+                    console.clear = originalClear;
+                }
+            },
+            /**
+             * Overwrite the original console.* methods and start outputting to screen
+             * @memberof ConsoleLogHTML
+             * @param {$|jQuery|HTMLUListElement} target The target &amp;lt;ul&amp;gt; element to output to. Can can either be a jQuery
+             * or vanilla JS HTMLUListElement.
+             * @param {Object} [options=ConsoleLogHTML.DEFAULTS] CSS class options. See {@link ConsoleLogHTML.DEFAULTS} for default values.
+             * @param {boolean} [includeTimestamp=true] Whether to include the log message timestamp in HTML
+             * @param {boolean} [logToConsole=true] Whether to continue logging to the console as well as HTML.
+             * @throws {Error} If target is not an &amp;lt;ul&amp;gt; element
+             */
+            connect: function (target, options, includeTimestamp, logToConsole) {
+                if (target instanceof jQuery) {
+                    target = target[0];
+                }
+                if (typeof(logToConsole) !== TYPE_BOOLEAN) {
+                    logToConsole = true;
+                }
+                if (typeof(includeTimestamp) !== TYPE_BOOLEAN) {
+                    includeTimestamp = true;
+                }
+                if (!(target instanceof HTMLUListElement)) {
+                    throw new Error("The target must be a HTML &lt;ul> element");
+                } else {
+                    options = extend(ConsoleLogHTML.DEFAULTS, options || {});
+                    /**
+                     * Our object keys
+                     * @type {string[]}
+                     */
+                    var keys = Obj.keys(original),
+                        /**
+                         * The li item we'll be appending
+                         * @type {HTMLLIElement}
+                         */
+                        li,
+                        /**
+                         * The message we'll be appending
+                         * @type {string}
+                         */
+                        finalMsg,
+                        /**
+                         * Iterator
+                         * @type {number}
+                         */
+                        i;
 
+                    for (i = 0; i &lt; keys.length; i++) {
+                        const method = keys[i];
+                        console[method] = function (msg, onlyConsole) {
+                            if (typeof(onlyConsole) !== TYPE_BOOLEAN) {
+                                onlyConsole = false;
                             }
-                        }
-                        finalMsg = (includeTimestamp ? "[" + (new Date()).toLocaleTimeString() + "] " : "") + finalMsg;
-                        //noinspection JSValidateTypes
-                        li = document.createElement("li");
-                        li.innerText = finalMsg;
-                        li.classList.add(options[method]);
-                        li.setAttribute("data-level", method);
-                        target.insertBefore(li, target.firstChild);
+                            if (!onlyConsole) {
+                                finalMsg = msg.toString();
+                                if (finalMsg === INSTANCE_OBJECT_OBJECT) {
+                                    try {
+                                        finalMsg = JSON.stringify(msg);
+                                    } catch (e) {
+
+                                    }
+                                }
+                                finalMsg = (includeTimestamp ? "[" + (new Date()).toLocaleTimeString() + "] " : "") + finalMsg;
+                                //noinspection JSValidateTypes
+                                li = document.createElement("li");
+                                li.setAttribute("data-level", method);
+                                li.innerText = finalMsg;
+                                if (options[method]) {
+                                    li.classList.add(options[method]);
+                                }
+                                target.insertBefore(li, target.firstChild);
+                            }
+
+                            if (logToConsole &amp;&amp; typeof(original[method]) !== TYPE_UNDEFINED) {
+                                original[method].apply(console, [msg]);
+                            }
+                        };
                     }
 
-                    if (logToConsole &amp;&amp; typeof(original[method]) !== "undefined") {
-                        original[method].apply(console, [msg]);
-                    }
-                };
+                    console.clear = function () {
+                        target.innerText = "";
+                    };
+                }
             }
-
-            console.clear = function () {
-                target.innerText = "";
-            };
-        }
-    };
-    ConsoleLogHTML.disconnect = function () {
-        var keys = Object.keys(original);
-        for (var i = 0; i &lt; keys.length; i++) {
-            if (typeof(original[keys[i]]) !== "undefined") {
-                console[keys[i]] = original[keys[i]];
-            }
-        }
-        if (typeof(originalClear) !== "undefined") {
-            console.clear = originalClear;
+        };
+    } finally {
+        if (typeof(module) !== TYPE_UNDEFINED &amp;&amp; typeof(module.exports) !== TYPE_UNDEFINED) {
+            module.exports = ConsoleLogHTML;
         }
     }
-})();</code></pre>
+})(console, Object, "undefined", "boolean", '[object Object]');</code></pre>
         </article>
     </section>
 
@@ -200,7 +213,7 @@ var ConsoleLogHTML = {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue May 10 2016 17:04:07 GMT+0100 (GMT Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue May 10 2016 17:49:29 GMT+0100 (GMT Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>
