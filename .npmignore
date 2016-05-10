@@ -2,3 +2,5 @@
 /.idea
 /jsdoc
 /coverage
+/*.html
+/*.min.js
