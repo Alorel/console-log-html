@@ -1,0 +1,41 @@
+{
+  "name": "console-log-html",
+  "version": "1.1.1-beta",
+  "description": "Copies/redirects console output to HTML",
+  "main": "console-log-html.js",
+  "scripts": {
+    "test": "node_modules/.bin/karma start karma.conf.js --single-run",
+    "jsdoc": "node_modules/.bin/jsdoc -d jsdoc console-log-html.js",
+    "minify": "node node_modules/uglify-js/bin/uglifyjs --compress --mangle -o console-log-html.min.js console-log-html.js",
+    "dist": "npm test && node scripts/clean.js && npm run jsdoc && npm run minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alorel/console-log-html.git"
+  },
+  "keywords": [
+    "console",
+    "log",
+    "html",
+    "output",
+    "console.log",
+    "console.error"
+  ],
+  "author": "Alorel <a.molcanovas@gmail.com> https://github.com/Alorel",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Alorel/console-log-html/issues"
+  },
+  "homepage": "https://github.com/Alorel/console-log-html#readme",
+  "devDependencies": {
+    "jasmine-core": "^2.4.1",
+    "jasmine-jquery": "^2.1.1",
+    "jsdoc": "^3.4.0",
+    "karma": "^0.13.22",
+    "karma-coverage": "^1.0.0",
+    "karma-jasmine": "^1.0.2",
+    "karma-phantomjs2-launcher": "^0.5.0",
+    "uglify-js": "^2.6.2"
+  },
+  "dependencies": {}
+}

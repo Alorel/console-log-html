@@ -2,9 +2,13 @@ A tiny library that overrides the browser's `console.*` functions allowing the l
 
 Usage:
 
-```javascript
-ConsoleLogHTML.connect(document.getElementById("myULContainer")); // Redirect log messages
-ConsoleLogHTML.disconnect(); // Stop redirecting
+```html
+    <ul id="myULContainer"></ul> <!-- I will hold the log messages -->
+    <script type="application/javascript" src="console-log-html.min.js"></script>
+    <script>
+        ConsoleLogHTML.connect(document.getElementById("myULContainer")); // Redirect log messages
+        ConsoleLogHTML.disconnect(); // Stop redirecting
+    </script>
 ```
 
 You can also instruct the script to only log to the console by passing a second argument to `console.*()`, e.g.:
