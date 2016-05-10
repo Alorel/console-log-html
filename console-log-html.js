@@ -4,7 +4,7 @@ var ConsoleLogHTML;
  * @name ConsoleLogHTML
  * @namespace ConsoleLogHTML
  */
-(function ($, console, Error, HTMLUListElement, Date, jsonStringify, objectKeys) {
+(function () {
     var original = {
             log: console.log,
             debug: console.debug,
@@ -14,7 +14,44 @@ var ConsoleLogHTML;
         },
         originalClear = console.clear,
         TYPE_UNDEFINED = "undefined",
-        TYPE_BOOLEAN = "boolean";
+        TYPE_BOOLEAN = "boolean",
+        extend = function () {
+            // Variables
+            var extended = {},
+                deep = false,
+                i = 0,
+                length = arguments.length;
+
+            // Check if a deep merge
+            if (Object.prototype.toString.call(arguments[0]) === '[object Boolean]') {
+                deep = arguments[0];
+                i++;
+            }
+
+            // Merge the object into the extended object
+            var merge = function (obj) {
+                
+                for (var prop in obj) {
+                    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+                        // If deep merge and property is an object, merge properties
+                        if (deep && Object.prototype.toString.call(obj[prop]) === '[object Object]') {
+                            extended[prop] = extend(true, extended[prop], obj[prop]);
+                        } else {
+                            extended[prop] = obj[prop];
+                        }
+                    }
+                }
+            };
+
+            // Loop through each object and conduct a merge
+            for (; i < length; i++) {
+                var obj = arguments[i];
+                merge(obj);
+            }
+
+            return extended;
+
+        };
 
     ConsoleLogHTML = {
         /**
@@ -38,15 +75,15 @@ var ConsoleLogHTML;
          * Overwrite the original console.* methods and start outputting to screen
          * @memberof ConsoleLogHTML
          * @param {*|jQuery|HTMLUListElement} target The target &lt;ul&gt; element to output to. Can can either be a jQuery
-         * or vanilla JS DOM element.
+         * or vanilla JS HTMLUListElement.
          * @param {Object} [options=ConsoleLogHTML.DEFAULTS] CSS class options. See {@link ConsoleLogHTML.DEFAULTS} for default values.
          * @param {boolean} [includeTimestamp=true] Whether to include the log message timestamp in HTML
          * @param {boolean} [logToConsole=true] Whether to continue logging to the console as well as HTML.
          * @throws If target is not an &lt;ul&gt; element
          */
         connect: function (target, options, includeTimestamp, logToConsole) {
-            if (!(target instanceof $)) {
-                target = $(target);
+            if (target instanceof jQuery) {
+                target = target[0];
             }
             if (typeof(logToConsole) !== TYPE_BOOLEAN) {
                 logToConsole = true;
@@ -54,7 +91,7 @@ var ConsoleLogHTML;
             if (typeof(includeTimestamp) !== TYPE_BOOLEAN) {
                 includeTimestamp = true;
             }
-            if (!(target[0] instanceof HTMLUListElement)) {
+            if (!(target instanceof HTMLUListElement)) {
                 throw new Error("The target must be a HTML <ul> element");
             } else {
                 options = $.extend(ConsoleLogHTML.DEFAULTS, options || {});
@@ -111,4 +148,4 @@ var ConsoleLogHTML;
             }
         }
     };
-})(jQuery, console, Error, HTMLUListElement, Date, JSON.stringify, Object.keys);
+})();
