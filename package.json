@@ -1,6 +1,6 @@
 {
   "name": "console-log-html",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Copies/redirects console output to HTML",
   "main": "console-log-html.js",
   "scripts": {
