@@ -54,7 +54,7 @@ The default css classes can be overriden in `ConsoleLogHTML.DEFAULTS`:
 
 ### During connect()
 
-The connect mathod has the following signature:
+The connect method has the following signature:
 ```javascript
 function connect(target, options, includeTimestamp, logToConsole){}
 ```
