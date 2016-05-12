@@ -2,7 +2,7 @@
  * Console control namespace
  * @namespace
  */
-var ConsoleLogHTML = (function (console, Obj, TYPE_UNDEFINED, TYPE_BOOLEAN, INSTANCE_OBJECT_OBJECT) {
+var ConsoleLogHTML = (function (console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, INSTANCE_OBJECT_OBJECT) {
     'use strict';
     var original = {
             log: console.log,
@@ -12,39 +12,21 @@ var ConsoleLogHTML = (function (console, Obj, TYPE_UNDEFINED, TYPE_BOOLEAN, INST
             error: console.error
         },
         originalClear = console.clear,
+    // [COVERAGE] Don't think it's checkable with Karma
         jQueryIsUp = typeof(jQuery) !== TYPE_UNDEFINED ? jQuery : false,
         extend = function () {
-            // Variables
-            var extended = {},
-            // deep = false,
-                i = 0,
-                prop,
-                merge = function (obj) {
-                    for (prop in obj) {
-                        if (Obj.prototype.hasOwnProperty.call(obj, prop)) {
-                            // // If deep merge and property is an object, merge properties
-                            // if (deep && Obj.prototype.toString.call(obj[prop]) === INSTANCE_OBJECT_OBJECT) {
-                            //     extended[prop] = extend(true, extended[prop], obj[prop]);
-                            // } else {
-                            extended[prop] = obj[prop];
-                            // }
-                        }
-                    }
-                };
+            var out = {},
+                a = 0,
+                k, keys;
 
-            // // Check if a deep merge
-            // if (Obj.prototype.toString.call(arguments[0]) === '[object Boolean]') {
-            //     deep = arguments[0];
-            //     i++;
-            // }
-
-            // Loop through each object and conduct a merge
-            for (; i < arguments.length; i++) {
-                var obj = arguments[i];
-                merge(obj);
+            for (; a < arguments.length; a++) {
+                keys = Object.keys(arguments[a]);
+                for (k = 0; k < keys.length; k++) {
+                    out[keys[k]] = arguments[a][keys[k]];
+                }
             }
 
-            return extended;
+            return out;
         },
         register = function (method, target, options, includeTimestamp, logToConsole) {
             console[method] = function (msg, onlyConsole) {
@@ -72,11 +54,17 @@ var ConsoleLogHTML = (function (console, Obj, TYPE_UNDEFINED, TYPE_BOOLEAN, INST
                     target.insertBefore(li, target.firstChild);
                 }
 
+                // [COVERAGE] Don't think it's checkable with Karma
                 if (logToConsole && typeof(original[method]) !== TYPE_UNDEFINED) {
                     original[method].apply(console, [msg]);
                 }
             };
         };
+
+    /* istanbul ignore next */
+    if (typeof(module) !== TYPE_UNDEFINED && typeof(module.exports) !== TYPE_UNDEFINED) {
+        module.exports = ConsoleLogHTML;
+    }
 
     return {
         /**
@@ -101,7 +89,7 @@ var ConsoleLogHTML = (function (console, Obj, TYPE_UNDEFINED, TYPE_BOOLEAN, INST
          * @memberof ConsoleLogHTML
          */
         disconnect: function () {
-            var keys = Obj.keys(original);
+            var keys = Object.keys(original);
             for (var i = 0; i < keys.length; i++) {
                 if (typeof(original[keys[i]]) !== TYPE_UNDEFINED) {
                     console[keys[i]] = original[keys[i]];
@@ -125,6 +113,7 @@ var ConsoleLogHTML = (function (console, Obj, TYPE_UNDEFINED, TYPE_BOOLEAN, INST
             if (jQueryIsUp && target instanceof jQueryIsUp) {
                 target = target[0];
             }
+            /* istanbul ignore else */
             if (typeof(logToConsole) !== TYPE_BOOLEAN) {
                 logToConsole = true;
             }
@@ -135,7 +124,7 @@ var ConsoleLogHTML = (function (console, Obj, TYPE_UNDEFINED, TYPE_BOOLEAN, INST
                 throw new Error("The target must be a HTML <ul> element");
             } else {
                 options = extend(ConsoleLogHTML.DEFAULTS, options || {});
-                var keys = Obj.keys(original), i;
+                var keys = Object.keys(original), i;
 
                 for (i = 0; i < keys.length; i++) {
                     register(keys[i], target, options, includeTimestamp, logToConsole);
@@ -149,7 +138,3 @@ var ConsoleLogHTML = (function (console, Obj, TYPE_UNDEFINED, TYPE_BOOLEAN, INST
         }
     };
 })(console, Object, "undefined", "boolean", '[object Object]');
-
-if (typeof(module) !== "undefined" && typeof(module.exports) !== "undefined") {
-    module.exports = ConsoleLogHTML;
-}

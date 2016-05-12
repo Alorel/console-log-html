@@ -1,12 +1,12 @@
 {
   "name": "console-log-html",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Copies/redirects console output to HTML",
   "main": "console-log-html.js",
   "scripts": {
-    "test": "node scripts/clean.js coverage && karma start karma.conf.js --single-run && node scripts/coverage-index.js",
-    "jsdoc": "node scripts/clean.js jsdoc && jsdoc -d jsdoc -t node_modules/ink-docstrap/template -R README.md -c ./scripts/jsdoc.conf.json console-log-html.js",
-    "minify": "node node_modules/uglify-js/bin/uglifyjs --compress --mangle -o console-log-html.min.js console-log-html.js",
+    "test": "rimraf ./coverage && karma start ./build/karma.conf.js --single-run && node ./build/coverage-index.js",
+    "jsdoc": "rimraf ./jsdoc && jsdoc -d ./jsdoc -t ./node_modules/ink-docstrap/template -R README.md -c ./build/jsdoc.conf.json ./console-log-html.js",
+    "minify": "node ./node_modules/uglify-js/bin/uglifyjs --compress --mangle -o ./console-log-html.min.js ./console-log-html.js",
     "dist": "npm test && npm run jsdoc && npm run minify"
   },
   "repository": {
@@ -36,6 +36,7 @@
     "karma-coverage": "^1.0.0",
     "karma-jasmine": "^1.0.2",
     "karma-phantomjs2-launcher": "^0.5.0",
+    "rimraf": "^2.5.2",
     "uglify-js": "^2.6.2"
   },
   "dependencies": {}

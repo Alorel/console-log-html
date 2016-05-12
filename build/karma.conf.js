@@ -5,7 +5,7 @@ module.exports = function (config) {
     config.set({
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: '',
+        basePath: '../',
 
 
         // frameworks to use
@@ -25,16 +25,22 @@ module.exports = function (config) {
             '*.min.js'
         ],
 
-
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-        preprocessors: {'*.js': ['coverage']},
+        preprocessors: {
+            '*.js': ['coverage']
+        },
 
 
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
         reporters: ['progress', 'coverage'],
+
+        coverageReporter: {
+            type: 'html',
+            dir: 'coverage/'
+        },
 
 
         // web server port
