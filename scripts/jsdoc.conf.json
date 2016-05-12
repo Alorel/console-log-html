@@ -1,0 +1,34 @@
+{
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "templates": {
+    "logoFile": "",
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "dateFormat": "dddd, Do MMMM, Y",
+    "outputSourceFiles": true,
+    "outputSourcePath": true,
+    "systemName": "ConsoleLogHTML",
+    "footer": "",
+    "copyright": "Created and maintained by <a href=\"https://github.com/Alorel\">Alorel</a>. Source available <a href=\"https://github.com/Alorel/console-log-html\">here</a>.",
+    "navType": "vertical",
+    "theme": "simplex",
+    "linenums": true,
+    "collapseSymbols": false,
+    "inverseNav": true,
+    "protocol": "html://",
+    "methodHeadingReturns": false,
+    "analytics": {
+      "ua": "UA-76993341-1",
+      "domain": "auto"
+    }
+  },
+  "markdown": {
+    "parser": "gfm",
+    "hardwrap": true
+  }
+}

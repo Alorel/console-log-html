@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>ConsoleLogHTML Index</title>
+	<title>ConsoleLogHTML Namespaces</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -63,86 +63,95 @@
 		<div id="main">
 			
 
+	<h1 class="page-title">Namespaces</h1>
+<section>
+
+<header>
+    
+        <h2>
+        
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+<dl class="details">
+    
+
 	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
 	
 
 
 
-
-
-
-
-
-
-
-
-	
 	
 
+	
+
+	
+
+	
+</dl>
 
 
+        
+    
+    </div>
 
+    
 
-    <section class="readme-section">
-        <article><p>A tiny 1.3 kB library that overrides the browser's <code>console.*</code> functions allowing the logged messages to be displayed in HTML.</p>
-<table>
-<thead>
-<tr>
-<th>Release</th>
-<th>Dev</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://travis-ci.org/Alorel/console-log-html"><img src="https://travis-ci.org/Alorel/console-log-html.svg?branch=master" alt="Build Status"></a></td>
-<td><a href="https://travis-ci.org/Alorel/console-log-html"><img src="https://travis-ci.org/Alorel/console-log-html.svg?branch=develop" alt="Build Status"></a></td>
-</tr>
-<tr>
-<td><a href="https://david-dm.org/alorel/console-log-html#info=dependencies&amp;view=list"><img src="https://david-dm.org/alorel/console-log-html.svg" alt="Deps"></a></td>
-<td><a href="https://david-dm.org/alorel/console-log-html#info=devDependencies&amp;view=list"><img src="https://david-dm.org/alorel/console-log-html/dev-status.svg" alt="Deps"></a></td>
-</tr>
-</tbody>
-</table>
-<p><a href="https://www.npmjs.com/package/console-log-html"><img src="https://nodei.co/npm/console-log-html.png?downloads=true&amp;downloadRank=true&amp;stars=true" alt="NPM"></a></p>
-<h1>Installation:</h1><p>Simply include the file on your page:</p>
-<pre class="prettyprint source lang-html"><code>&lt;script type=&quot;application/javascript&quot; src=&quot;console-log-html.min.js&quot;>&lt;/script>
-&lt;!-- Or, alternatively, use the CDN URL -->
-&lt;script type=&quot;application/javascript&quot; src=&quot;//cdn.rawgit.com/Alorel/console-log-html/master/console-log-html.min.js&quot;>&lt;/script></code></pre><p>It can also be included as a dependency from <a href="https://www.npmjs.com/package/console-log-html">npm</a>:</p>
-<pre class="prettyprint source lang-shell"><code>npm install console-log-html --save</code></pre><pre class="prettyprint source lang-javascript"><code>(function(){ // Your closure
-    var ConsoleLogHTML = require('console-log-html');
-})();</code></pre><h1>Usage:</h1><pre class="prettyprint source lang-html"><code>    &lt;ul id=&quot;myULContainer&quot;>&lt;/ul> &lt;!-- I will hold the log messages -->
-    &lt;script type=&quot;application/javascript&quot; src=&quot;console-log-html.min.js&quot;>&lt;/script>
-    &lt;script>
-        ConsoleLogHTML.connect(document.getElementById(&quot;myULContainer&quot;)); // Redirect log messages
-        ConsoleLogHTML.disconnect(); // Stop redirecting
-    &lt;/script></code></pre><p>You can also instruct the script to only log to the console by passing a second argument to <code>console.*()</code>, e.g.:</p>
-<pre class="prettyprint source lang-javascript"><code>console.log(&quot;foo&quot;); //Logs to HTML
-console.log(&quot;bar&quot;, true); // Logs to the console, but only if logToConsole is set to true
-`</code></pre><h2>Customisation</h2><h3>Default styles</h3><p>The default css classes can be overriden in <code>ConsoleLogHTML.DEFAULTS</code>:</p>
-<pre class="prettyprint source lang-javascript"><code>    ConsoleLogHTML.DEFAULTS.error = &quot;some-error-css-class&quot;; // Will be applied to console.error()
-    ConsoleLogHTML.DEFAULTS.log = &quot;another-override&quot;; // Will be applied to console.log()</code></pre><h3>During connect()</h3><p>The connect method has the following signature:</p>
-<pre class="prettyprint source lang-javascript"><code>function connect(target, options, includeTimestamp, logToConsole){}</code></pre><ul>
-<li><code>target</code> has already been covered - it's the &lt;ul&gt; element</li>
-<li><p><code>options</code> allows you to override the css classes in <code>ConsoleLogHTML.DEFAULTS</code> for the duration of the <code>connect</code>, i.e. it<br>would not save the values. For example, if you wanted to override the <code>log</code> and <code>warn</code> CSS classes you could pass the object</p>
-<pre class="prettyprint source lang-json"><code>{
-   &quot;warn&quot;: &quot;my-warn-css-class&quot;,
-   &quot;log&quot;: &quot;my-log-css-class&quot;
-}</code></pre></li>
-<li><p><code>includeTimestamp</code> - when set to <code>true</code> (the default value), a timestamp will be prepended to each message as it<br>appears in the &lt;ul&gt;. The timestamp's format depends on the user as it is created via</p>
-<pre class="prettyprint source lang-javascript"><code>(new Date()).toLocaleTimeString()</code></pre></li>
-<li><code>logToConsole</code> - when set to <code>true</code> (the default value), appear both in the console <em>and</em> the &lt;ul&gt;; when set<br>to <code>false</code>, they appear only in the &lt;ul&gt;.</li>
-</ul>
-<hr>
-<p>More information:</p>
-<ul>
-<li><a href="https://alorel.github.io/console-log-html">Demo</a></li>
-<li><a href="https://alorel.github.io/console-log-html/jsdoc">API documentation</a></li>
-<li><a href="https://alorel.github.io/console-log-html/coverage/index.html">Test coverage</a></li>
-</ul></article>
-    </section>
+    
 
+    
 
+    
 
+    
+        <h3 class="subsection-title">Namespaces</h3>
+
+        <dl>
+            <dt><a href="namespaces.html#ConsoleLogHTML"><a href="ConsoleLogHTML.html">ConsoleLogHTML</a></a></dt>
+            <dd></dd>
+        </dl>
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

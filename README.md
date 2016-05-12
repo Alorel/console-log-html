@@ -2,8 +2,10 @@ A tiny 1.3 kB library that overrides the browser's `console.*` functions allowin
 
 | Release                                                                                                                           | Dev                                                                                                                                |
 |-----------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| [![Build Status](https://travis-ci.org/Alorel/console-log-html.svg?branch=master)](https://travis-ci.org/Alorel/console-log-html) | [![Build Status](https://travis-ci.org/Alorel/console-log-html.svg?branch=develop)](https://travis-ci.org/Alorel/console-log-html) |
+| [![Build Status](https://travis-ci.org/Alorel/console-log-html.svg?branch=master)](https://travis-ci.org/Alorel/console-log-html)     | [![Build Status](https://travis-ci.org/Alorel/console-log-html.svg?branch=develop)](https://travis-ci.org/Alorel/console-log-html)                  |
+| [![Deps](https://david-dm.org/alorel/console-log-html.svg)](https://david-dm.org/alorel/console-log-html#info=dependencies&view=list) | [![Deps](https://david-dm.org/alorel/console-log-html/dev-status.svg)](https://david-dm.org/alorel/console-log-html#info=devDependencies&view=list) |
 
+[![NPM](https://nodei.co/npm/console-log-html.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/console-log-html)
 
 # Installation:
 
@@ -68,7 +70,7 @@ function connect(target, options, includeTimestamp, logToConsole){}
         "warn": "my-warn-css-class",
         "log": "my-log-css-class"
    }
-   ````
+   ```
    - `includeTimestamp` - when set to `true` (the default value), a timestamp will be prepended to each message as it
    appears in the &lt;ul&gt;. The timestamp's format depends on the user as it is created via
 
@@ -84,4 +86,4 @@ More information:
 
    - [Demo](https://alorel.github.io/console-log-html)
    - [API documentation](https://alorel.github.io/console-log-html/jsdoc)
-   - [Test coverage](https://alorel.github.io/console-log-html/coverage/PhantomJS%202.1.1%20(Windows%207%200.0.0)/console-log-html/index.html)
+   - [Test coverage](https://alorel.github.io/console-log-html/coverage/index.html)

@@ -1,13 +1,13 @@
 {
   "name": "console-log-html",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Copies/redirects console output to HTML",
   "main": "console-log-html.js",
   "scripts": {
-    "test": "node_modules/.bin/karma start karma.conf.js --single-run",
-    "jsdoc": "node_modules/.bin/jsdoc -d jsdoc console-log-html.js",
+    "test": "node scripts/clean.js coverage && karma start karma.conf.js --single-run && node scripts/coverage-index.js",
+    "jsdoc": "node scripts/clean.js jsdoc && jsdoc -d jsdoc -t node_modules/ink-docstrap/template -R README.md -c ./scripts/jsdoc.conf.json console-log-html.js",
     "minify": "node node_modules/uglify-js/bin/uglifyjs --compress --mangle -o console-log-html.min.js console-log-html.js",
-    "dist": "npm test && node scripts/clean.js && npm run jsdoc && npm run minify"
+    "dist": "npm test && npm run jsdoc && npm run minify"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/Alorel/console-log-html#readme",
   "devDependencies": {
+    "ink-docstrap": "^1.1.4",
     "jasmine-core": "^2.4.1",
     "jasmine-jquery": "^2.1.1",
     "jsdoc": "^3.4.0",
