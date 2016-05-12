@@ -19,5 +19,5 @@ if (typeof(process.argv[2]) !== "undefined") {
     deleteFolderRecursive(process.argv[2]);
     console.info("Deleted directory " + process.argv[2] + " and the  " + numDeletedFiles + " files it contained");
 } else {
-    throw new Error("The desstination dir is not provided");
+    throw new Error("The destination dir is not provided");
 }
