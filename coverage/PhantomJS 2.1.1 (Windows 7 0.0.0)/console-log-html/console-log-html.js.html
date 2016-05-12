@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">98% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>50/50</span>
+        <span class='fraction'>49/50</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">88.89% </span>
+        <span class="strong">80.56% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>32/36</span>
+        <span class='fraction'>29/36</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -35,13 +35,9 @@
         <span class='fraction'>7/7</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">98% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>50/50</span>
-      </div>
-      <div class='fl pad1y'>
-        <span class="strong">1 statement, 3 branches</span>
-        <span class="quiet">Ignored</span>  &nbsp;&nbsp;&nbsp;&nbsp;
+        <span class='fraction'>49/50</span>
       </div>
     </div>
   </div>
@@ -182,18 +178,13 @@
 133
 134
 135
-136
-137
-138
-139
-140</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+136</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -242,16 +233,10 @@
 <span class="cline-any cline-yes">14×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">15×</span>
 <span class="cline-any cline-yes">15×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
@@ -300,7 +285,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-yes">6×</span>
@@ -325,6 +309,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
  * Console control namespace
  * @namespace
@@ -339,7 +327,6 @@ var ConsoleLogHTML = (function (console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, I
             error: console.error
         },
         originalClear = console.clear,
-    // [COVERAGE] Don't think it's checkable with Karma
         jQueryIsUp = typeof(jQuery) !== TYPE_UNDEFINED ? jQuery : <span class="branch-1 cbranch-no" title="branch not covered" >false,</span>
         extend = function () {
             var out = {},
@@ -381,17 +368,11 @@ var ConsoleLogHTML = (function (console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, I
                     target.insertBefore(li, target.firstChild);
                 }
 &nbsp;
-                // [COVERAGE] Don't think it's checkable with Karma
                 <span class="missing-if-branch" title="else path not taken" >E</span>if (logToConsole &amp;&amp; typeof(original[method]) !== TYPE_UNDEFINED) {
                     original[method].apply(console, [msg]);
                 }
             };
         };
-&nbsp;
-    /* istanbul ignore next */
-    <span class="skip-if-branch" title="if path not taken" >I</span>if (typeof(module) !== TYPE_UNDEFINED &amp;&amp; <span class="branch-1 cbranch-skip" title="branch not covered" >typeof(module.exports) !== TYPE_UNDEFINED)</span> {
-<span class="cstat-skip" title="statement not covered" >        module.exports = ConsoleLogHTML;</span>
-    }
 &nbsp;
     return {
         /**
@@ -440,8 +421,7 @@ var ConsoleLogHTML = (function (console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, I
             if (jQueryIsUp &amp;&amp; target instanceof jQueryIsUp) {
                 target = target[0];
             }
-            /* istanbul ignore else */
-            <span class="skip-if-branch" title="else path not taken" >E</span>if (typeof(logToConsole) !== TYPE_BOOLEAN) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof(logToConsole) !== TYPE_BOOLEAN) {
                 logToConsole = true;
             }
             if (typeof(includeTimestamp) !== TYPE_BOOLEAN) {
@@ -464,13 +444,17 @@ var ConsoleLogHTML = (function (console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, I
             }
         }
     };
-})(console, Object, "undefined", "boolean", '[object Object]');</pre></td></tr>
+})(console, Object, "undefined", "boolean", '[object Object]');
+&nbsp;
+<span class="missing-if-branch" title="if path not taken" >I</span>if (typeof(module) !== "undefined" &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >typeof(module.exports) !== "undefined")</span> {
+<span class="cstat-no" title="statement not covered" >    module.exports = ConsoleLogHTML;</span>
+}</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri May 13 2016 00:24:49 GMT+0100 (GMT Daylight Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri May 13 2016 00:50:41 GMT+0100 (GMT Daylight Time)
 </div>
 </div>
 <script src="../prettify.js"></script>

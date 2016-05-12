@@ -12,7 +12,6 @@ var ConsoleLogHTML = (function (console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, I
             error: console.error
         },
         originalClear = console.clear,
-    // [COVERAGE] Don't think it's checkable with Karma
         jQueryIsUp = typeof(jQuery) !== TYPE_UNDEFINED ? jQuery : false,
         extend = function () {
             var out = {},
@@ -54,17 +53,11 @@ var ConsoleLogHTML = (function (console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, I
                     target.insertBefore(li, target.firstChild);
                 }
 
-                // [COVERAGE] Don't think it's checkable with Karma
                 if (logToConsole && typeof(original[method]) !== TYPE_UNDEFINED) {
                     original[method].apply(console, [msg]);
                 }
             };
         };
-
-    /* istanbul ignore next */
-    if (typeof(module) !== TYPE_UNDEFINED && typeof(module.exports) !== TYPE_UNDEFINED) {
-        module.exports = ConsoleLogHTML;
-    }
 
     return {
         /**
@@ -113,7 +106,6 @@ var ConsoleLogHTML = (function (console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, I
             if (jQueryIsUp && target instanceof jQueryIsUp) {
                 target = target[0];
             }
-            /* istanbul ignore else */
             if (typeof(logToConsole) !== TYPE_BOOLEAN) {
                 logToConsole = true;
             }
@@ -138,3 +130,7 @@ var ConsoleLogHTML = (function (console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, I
         }
     };
 })(console, Object, "undefined", "boolean", '[object Object]');
+
+if (typeof(module) !== "undefined" && typeof(module.exports) !== "undefined") {
+    module.exports = ConsoleLogHTML;
+}
