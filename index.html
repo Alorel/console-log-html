@@ -46,12 +46,13 @@
 
     var header = document.querySelector("header"),
             container = document.querySelector(".container"),
-            iframe = document.querySelector("iframe");
-    header.style.height = header.offsetHeight + "px";
+            iframe = document.querySelector("iframe"),
+            headerHeight = header.offsetHeight;
 
     function resize() {
-        container.style.height = window.innerHeight + "px";
-        iframe.style.height = (window.innerHeight - 100 - header.offsetHeight) + "px";
+        var windowHeight = window.innerHeight;
+        container.style.height = windowHeight + "px";
+        iframe.style.height = (windowHeight - 100 - headerHeight) + "px";
     }
 
     window.addEventListener("resize", resize);
