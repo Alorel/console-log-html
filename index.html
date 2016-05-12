@@ -14,14 +14,15 @@
 <div class="container">
     <header class="text-center">
         <h1>Console log to HTML</h1>
-        <span>Redirects console output to HTML. See</span>
+        <span>Redirects console output to HTML. See </span>
         <a href="jsdoc/index.html">JSDoc</a>
-        <span>for full usage instructions and</span>
+        <span> for full usage instructions and </span>
         <a href="coverage/index.html">coverage</a>
-        <span>to see that things have been tested</span>
+        <span> to see that things have been tested</span>
     </header>
-    <hr/>
-    <iframe width="100%" height="600px" src="https://jsfiddle.net/Alorel/5h6ztc4r/embedded/result,js,resources,html,css"
+    <iframe width="100%"
+            style="min-height:600px"
+            src="https://jsfiddle.net/Alorel/5h6ztc4r/embedded/result,js,resources,html,css"
             allowfullscreen="allowfullscreen"
             frameborder="0"></iframe>
     <hr/>
@@ -41,6 +42,20 @@
     })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
     ga('create', 'UA-76993341-1', 'auto');
     ga('send', 'pageview');
+
+
+    var header = document.querySelector("header"),
+            container = document.querySelector(".container"),
+            iframe = document.querySelector("iframe");
+    header.style.height = header.offsetHeight + "px";
+
+    function resize() {
+        container.style.height = window.innerHeight + "px";
+        iframe.style.height = (window.innerHeight - 100 - header.offsetHeight) + "px";
+    }
+
+    window.addEventListener("resize", resize);
+    resize();
 </script>
 </body>
 </html>
