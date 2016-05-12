@@ -143,6 +143,7 @@ var ConsoleLogHTML = (function (console, Obj, TYPE_UNDEFINED, TYPE_BOOLEAN, INST
 
                 console.clear = function () {
                     target.innerText = "";
+                    originalClear.apply(console);
                 };
             }
         }
