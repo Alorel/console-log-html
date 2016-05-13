@@ -1,13 +1,14 @@
 {
   "name": "console-log-html",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "Copies/redirects console output to HTML",
   "main": "console-log-html.js",
   "scripts": {
-    "test": "rimraf ./coverage && karma start ./build/karma.conf.js --single-run && node ./build/coverage-index.js",
+    "test": "karma start ./build/karma.conf.js --single-run",
+    "test-coverage": "rimraf ./coverage && npm run test && node ./build/coverage-index.js",
     "jsdoc": "rimraf ./jsdoc && jsdoc -d ./jsdoc -t ./node_modules/ink-docstrap/template -R README.md -c ./build/jsdoc.conf.json ./console-log-html.js",
     "minify": "node ./node_modules/uglify-js/bin/uglifyjs --compress --mangle -o ./console-log-html.min.js ./console-log-html.js",
-    "dist": "npm test && npm run jsdoc && npm run minify"
+    "dist": "npm test-coverage && npm run jsdoc && npm run minify"
   },
   "repository": {
     "type": "git",
