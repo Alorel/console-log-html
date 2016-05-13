@@ -10,3 +10,10 @@ before_install:
     - sh -e /etc/init.d/xvfb start
 before_script:
     - npm install
+
+notifications:
+  on_success: change
+  on_failure: always
+
+matrix:
+  fast_finish: true
