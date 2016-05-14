@@ -1,5 +1,5 @@
 /**
- * Console control namespace
+ * Redirects console output to an &lt;ul&gt; element
  * @namespace
  */
 var ConsoleLogHTML = (function (console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, INSTANCE_OBJECT_OBJECT) {

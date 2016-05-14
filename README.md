@@ -1,9 +1,10 @@
 A tiny 1.3 kB library that overrides the browser's `console.*` functions allowing the logged messages to be displayed in HTML.
 
-| Release                                                                                                                           | Dev                                                                                                                                |
-|-----------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| [![Build Status](https://travis-ci.org/Alorel/console-log-html.svg?branch=master)](https://travis-ci.org/Alorel/console-log-html)     | [![Build Status](https://travis-ci.org/Alorel/console-log-html.svg?branch=develop)](https://travis-ci.org/Alorel/console-log-html)                  |
-| [![Deps](https://david-dm.org/alorel/console-log-html.svg)](https://david-dm.org/alorel/console-log-html#info=dependencies&view=list) | [![Deps](https://david-dm.org/alorel/console-log-html/dev-status.svg)](https://david-dm.org/alorel/console-log-html#info=devDependencies&view=list) |
+[![Coverage Status](https://coveralls.io/repos/github/Alorel/console-log-html/badge.svg?branch=master)](https://coveralls.io/github/Alorel/console-log-html?branch=master)
+[![Build Status](https://travis-ci.org/Alorel/console-log-html.svg?branch=master)](https://travis-ci.org/Alorel/console-log-html)
+[![Deps](https://david-dm.org/alorel/console-log-html.svg)](https://david-dm.org/alorel/console-log-html#info=dependencies&view=list)
+[![Deps](https://david-dm.org/alorel/console-log-html/dev-status.svg)](https://david-dm.org/alorel/console-log-html#info=devDependencies&view=list)
+
 
 [![NPM](https://nodei.co/npm/console-log-html.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/console-log-html)
 
@@ -17,7 +18,7 @@ Simply include the file on your page:
 ```
 
 It can also be included as a dependency from [npm](https://www.npmjs.com/package/console-log-html):
-```shell
+```
 npm install console-log-html --save
 ```
 ```javascript
@@ -86,4 +87,4 @@ More information:
 
    - [Demo](https://alorel.github.io/console-log-html)
    - [API documentation](https://alorel.github.io/console-log-html/jsdoc)
-   - [Test coverage](https://alorel.github.io/console-log-html/coverage/index.html)
+   - [Test coverage](https://coveralls.io/github/Alorel/console-log-html?branch=master)
