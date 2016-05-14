@@ -38,8 +38,17 @@ module.exports = function (config) {
         reporters: ['progress', 'coverage'],
 
         coverageReporter: {
-            type: 'html',
-            dir: 'coverage/'
+            dir: 'coverage/',
+            subdir: '.',
+            includeAllSources: true,
+            reporters: [
+                {
+                    type: 'html'
+                },
+                {
+                    type: 'lcovonly'
+                }
+            ]
         },
 
 
