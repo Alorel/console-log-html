@@ -2,26 +2,26 @@
  * Redirects console output to an &lt;ul&gt; element
  * @namespace
  */
-var ConsoleLogHTML = (function (console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, INSTANCE_OBJECT_OBJECT) {
+var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, INSTANCE_OBJECT_OBJECT) {
     'use strict';
-    var original = {
-            log: console.log,
-            debug: console.debug,
-            info: console.info,
-            warn: console.warn,
-            error: console.error
-        },
-        originalClear = console.clear,
-        jQueryIsUp = typeof(jQuery) !== TYPE_UNDEFINED ? jQuery : false,
+    for (var i = 0; i < methods.length; i++) {
+        if (TYPE_UNDEFINED !== typeof console[methods[i]]) {
+            original[methods[i]] = console[methods[i]];
+        }
+    }
+
+    var originalKeys = Object.keys(original),
+        originalClear = TYPE_UNDEFINED !== typeof console.clear ? console.clear : false,
+        jQueryIsUp = typeof jQuery !== TYPE_UNDEFINED ? jQuery : false,
         extend = function () {
             var out = {},
-                a = 0,
-                k, keys;
+                i = 0,
+                j, keys;
 
-            for (; a < arguments.length; a++) {
-                keys = Object.keys(arguments[a]);
-                for (k = 0; k < keys.length; k++) {
-                    out[keys[k]] = arguments[a][keys[k]];
+            for (; i < arguments.length; i++) {
+                keys = Object.keys(arguments[i]);
+                for (j = 0; j < keys.length; j++) {
+                    out[keys[j]] = arguments[i][keys[j]];
                 }
             }
 
@@ -31,7 +31,7 @@ var ConsoleLogHTML = (function (console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, I
             console[method] = function (msg, onlyConsole) {
                 var finalMsg, li;
 
-                if (typeof(onlyConsole) !== TYPE_BOOLEAN) {
+                if (typeof onlyConsole !== TYPE_BOOLEAN) {
                     onlyConsole = false;
                 }
                 if (!onlyConsole) {
@@ -48,12 +48,12 @@ var ConsoleLogHTML = (function (console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, I
                     li.setAttribute("data-level", method);
                     li.innerText = finalMsg;
                     if (options[method]) {
-                        li.classList.add(options[method]);
+                        li.setAttribute("class", options[method]);
                     }
                     target.insertBefore(li, target.firstChild);
                 }
 
-                if (logToConsole && typeof(original[method]) !== TYPE_UNDEFINED) {
+                if (logToConsole) {
                     original[method].apply(console, [msg]);
                 }
             };
@@ -82,22 +82,20 @@ var ConsoleLogHTML = (function (console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, I
          * @memberof ConsoleLogHTML
          */
         disconnect: function () {
-            var keys = Object.keys(original);
-            for (var i = 0; i < keys.length; i++) {
-                if (typeof(original[keys[i]]) !== TYPE_UNDEFINED) {
-                    console[keys[i]] = original[keys[i]];
-                }
+            for (var i = 0; i < originalKeys.length; i++) {
+                console[originalKeys[i]] = original[originalKeys[i]];
             }
-            if (typeof(originalClear) !== TYPE_UNDEFINED) {
+            if (false !== originalClear) {
                 console.clear = originalClear;
             }
         },
         /**
          * Overwrite the original console.* methods and start outputting to screen
          * @memberof ConsoleLogHTML
-         * @param {$|jQuery|HTMLUListElement} target The target &lt;ul&gt; element to output to. Can can either be a jQuery
-         * or vanilla JS HTMLUListElement.
-         * @param {Object} [options=ConsoleLogHTML.DEFAULTS] CSS class options. See {@link ConsoleLogHTML.DEFAULTS} for default values.
+         * @param {$|jQuery|HTMLUListElement} target The target &lt;ul&gt; element to output to. Can can either be a
+         * jQuery or vanilla JS HTMLUListElement.
+         * @param {Object} [options=ConsoleLogHTML.DEFAULTS] CSS class options. See {@link ConsoleLogHTML.DEFAULTS} for
+         * default values.
          * @param {boolean} [includeTimestamp=true] Whether to include the log message timestamp in HTML
          * @param {boolean} [logToConsole=true] Whether to continue logging to the console as well as HTML.
          * @throws {Error} If target is not an &lt;ul&gt; element
@@ -106,31 +104,31 @@ var ConsoleLogHTML = (function (console, Object, TYPE_UNDEFINED, TYPE_BOOLEAN, I
             if (jQueryIsUp && target instanceof jQueryIsUp) {
                 target = target[0];
             }
-            if (typeof(logToConsole) !== TYPE_BOOLEAN) {
+            if (typeof logToConsole !== TYPE_BOOLEAN) {
                 logToConsole = true;
             }
-            if (typeof(includeTimestamp) !== TYPE_BOOLEAN) {
+            if (typeof includeTimestamp !== TYPE_BOOLEAN) {
                 includeTimestamp = true;
             }
             if (!(target instanceof HTMLUListElement)) {
                 throw new Error("The target must be a HTML <ul> element");
             } else {
                 options = extend(ConsoleLogHTML.DEFAULTS, options || {});
-                var keys = Object.keys(original), i;
-
-                for (i = 0; i < keys.length; i++) {
-                    register(keys[i], target, options, includeTimestamp, logToConsole);
+                for (var i = 0; i < originalKeys.length; i++) {
+                    register(originalKeys[i], target, options, includeTimestamp, logToConsole);
                 }
 
-                console.clear = function () {
-                    target.innerText = "";
-                    originalClear.apply(console);
-                };
+                if (false !== originalClear) {
+                    console.clear = function () {
+                        target.innerText = "";
+                        originalClear.apply(console);
+                    };
+                }
             }
         }
     };
-})(console, Object, "undefined", "boolean", '[object Object]');
+})({}, ["log", "debug", "info", "warn", "error"], console, Object, "undefined", "boolean", '[object Object]');
 
-if (typeof(module) !== "undefined" && typeof(module.exports) !== "undefined") {
+if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
     module.exports = ConsoleLogHTML;
 }
