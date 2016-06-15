@@ -10,6 +10,9 @@
     "minify": "node ./node_modules/uglify-js/bin/uglifyjs --compress --mangle -o ./console-log-html.min.js ./console-log-html.js",
     "dist": "npm test && npm run jsdoc && npm run minify"
   },
+  "engines": {
+    "node": ">=0.10"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Alorel/console-log-html.git"
@@ -29,17 +32,17 @@
   },
   "homepage": "https://github.com/Alorel/console-log-html#readme",
   "devDependencies": {
-    "coveralls": "^2.11.9",
-    "ink-docstrap": "^1.1.4",
-    "jasmine-core": "^2.4.1",
-    "jasmine-jquery": "^2.1.1",
-    "jsdoc": "^3.4.0",
-    "karma": "^0.13.22",
-    "karma-coverage": "^1.0.0",
-    "karma-jasmine": "^1.0.2",
-    "karma-phantomjs2-launcher": "^0.5.0",
-    "rimraf": "^2.5.2",
-    "uglify-js": "^2.6.2"
+    "coveralls": "^2.11",
+    "ink-docstrap": "^1.1",
+    "jasmine-core": "^2.4",
+    "jasmine-jquery": "^2.1",
+    "jsdoc": "^3.4",
+    "karma": "^0.13",
+    "karma-coverage": "^1.0",
+    "karma-jasmine": "^1.0",
+    "karma-phantomjs2-launcher": "^0.5",
+    "rimraf": "^2.5",
+    "uglify-js": "^2.6"
   },
   "dependencies": {}
 }
