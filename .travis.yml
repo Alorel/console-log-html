@@ -12,7 +12,9 @@ cache:
     - ~/.npm
     - /usr/local/phantomjs
 
-script: npm run travis
+script:
+  - npm run travis
+  - npm prune
 
 before_install:
     - export DISPLAY=:99.0
