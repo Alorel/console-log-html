@@ -119,6 +119,20 @@ describe("Test Obj", function () {
     });
 });
 
+describe("Test special values", function () {
+    it("formats null to string", function () {
+        console.debug(null);
+
+        expect(TARGET_UL.firstElementChild.innerText).toBe("null");
+    });
+
+    it("formats undefined to string", function () {
+        console.debug(undefined);
+
+        expect(TARGET_UL.firstElementChild.innerText).toBe("undefined");
+    });
+});
+
 describe("Connect jQuery", function () {
     it("Disconnect", function () {
         console.clear();

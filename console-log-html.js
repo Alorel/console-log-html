@@ -35,7 +35,7 @@ var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFIN
                     onlyConsole = false;
                 }
                 if (!onlyConsole) {
-                    finalMsg = msg.toString();
+                    finalMsg = msg + ""; // "safe toString()" (works with null & undefined)
                     if (finalMsg === INSTANCE_OBJECT_OBJECT) {
                         try {
                             // Prefix with "Object" like in Firefox-, Chrome-, and node.js-output
