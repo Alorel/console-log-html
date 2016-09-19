@@ -78,7 +78,7 @@ describe("Test Obj", function () {
 
         console.debug(testObj);
 
-        var expected = JSON.stringify(testObj);
+        var expected = "Object " + JSON.stringify(testObj);
         expect(TARGET_UL.firstElementChild.innerText).toBe(expected);
     });
 
@@ -101,7 +101,7 @@ describe("Test Obj", function () {
         };
         inst = new Clazz();
         console.debug(inst);
-        var expected = JSON.stringify(inst);
+        var expected = "Object " + JSON.stringify(inst);
         expect(TARGET_UL.firstElementChild.innerText).toBe(expected);
     });
 

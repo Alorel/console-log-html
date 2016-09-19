@@ -38,7 +38,8 @@ var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFIN
                     finalMsg = msg.toString();
                     if (finalMsg === INSTANCE_OBJECT_OBJECT) {
                         try {
-                            finalMsg = JSON.stringify(msg);
+                            // Prefix with "Object" like in Firefox-, Chrome-, and node.js-output
+                            finalMsg = "Object " + JSON.stringify(msg);
                         } catch (e) {
 
                         }
