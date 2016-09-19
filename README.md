@@ -43,7 +43,7 @@ You can also instruct the script to only log to the console by passing a second 
 ```javascript
 console.log("foo"); //Logs to HTML
 console.log("bar", true); // Logs to the console, but only if logToConsole is set to true
-````
+```
 
 ## Customisation
 
