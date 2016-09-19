@@ -73,12 +73,13 @@ describe("Test onlyToConsole", function () {
 });
 
 describe("Test Obj", function () {
-    it("test jsonable", function () {
-        var testObj = {foo: "bar"},
-            testStr = JSON.stringify(testObj);
+    it("formats to JSON", function () {
+        var testObj = {foo: "bar"};
 
         console.debug(testObj);
-        expect(TARGET_UL.firstElementChild.innerText).toBe(testStr);
+
+        var expected = JSON.stringify(testObj);
+        expect(TARGET_UL.firstElementChild.innerText).toBe(expected);
     });
 
     it("test nonJsonable", function () {
@@ -100,7 +101,21 @@ describe("Test Obj", function () {
         };
         inst = new Clazz();
         console.debug(inst);
-        expect(TARGET_UL.firstElementChild.innerText).toBe(JSON.stringify(inst));
+        var expected = JSON.stringify(inst);
+        expect(TARGET_UL.firstElementChild.innerText).toBe(expected);
+    });
+
+    it("with custom toString()", function () {
+        var testObj = {
+            toString: function () {
+                return "my custom toString() impl";
+            }
+        };
+
+        console.debug(testObj);
+
+        var expected = "my custom toString() impl";
+        expect(TARGET_UL.firstElementChild.innerText).toBe(expected);
     });
 });
 
