@@ -29,6 +29,8 @@ describe("Test logging", function () {
             expect(1).toBe(li.innerText.match(pat).length);
             expect(li.className).toBe(ConsoleLogHTML.DEFAULTS[levels[i]]);
             expect(TARGET_UL.children.length).toBe(i + 1);
+
+            expect(console.skipHtml[levels[i]]).toBeDefined();
         }
     });
 });
@@ -45,10 +47,12 @@ describe("Test clear", function () {
 describe("Test no timestamp", function () {
     it("Disconnect", function () {
         console.clear();
-        ConsoleLogHTML.disconnect();
+        expect(console.skipHtml).toBeDefined();
         expect(TARGET_UL).toBeEmpty();
+        ConsoleLogHTML.disconnect();
         console.debug("Disconnect");
         expect(TARGET_UL).toBeEmpty();
+        expect(console.skipHtml).toBeUndefined(); // prove that `skipHtml` is being reset
     });
 
     it("Reconnect", function () {
@@ -60,14 +64,14 @@ describe("Test no timestamp", function () {
     });
 });
 
-describe("Test onlyToConsole", function () {
+describe("Test skipHtml", function () {
     it("onlyToConsole", function () {
         console.clear();
-        console.debug("onlyToConsole1");
+        console.debug("skipHtml 1");
         expect(TARGET_UL).not.toBeEmpty();
         console.clear();
         expect(TARGET_UL).toBeEmpty();
-        console.debug("onlyToConsole2", true);
+        console.skipHtml.debug("skipHtml 2");
         expect(TARGET_UL).toBeEmpty();
     });
 });
@@ -115,6 +119,25 @@ describe("Test Obj", function () {
         console.debug(testObj);
 
         var expected = "my custom toString() impl";
+        expect(TARGET_UL.firstElementChild.innerText).toBe(expected);
+    });
+});
+
+describe("Test multiple arguments", function () {
+    it("concatenates all arguments", function () {
+        console.debug("str", 42, true);
+
+        var expected = "str 42 true";
+        expect(TARGET_UL.firstElementChild.innerText).toBe(expected);
+    });
+
+    it("formats all objects to JSON", function () {
+        var testObj1 = {foo: "1"};
+        var testObj2 = {foo: "2"};
+
+        console.debug(testObj1, testObj2);
+
+        var expected = "Object " + JSON.stringify(testObj1) + " Object " + JSON.stringify(testObj2);
         expect(TARGET_UL.firstElementChild.innerText).toBe(expected);
     });
 });

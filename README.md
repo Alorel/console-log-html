@@ -41,8 +41,9 @@ npm install console-log-html --save
 You can also instruct the script to only log to the console by passing a second argument to `console.*()`, e.g.:
 
 ```javascript
-console.log("foo"); //Logs to HTML
-console.log("bar", true); // Logs to the console, but only if logToConsole is set to true
+console.log("foo"); //Logs "foo" to HTML
+console.log("Look, some JSON:", {foo: 'bar'}); //Logs "Look, some JSON: Object {"foo":"bar"}" to HTML
+console.skipHtml.log("bar"); // Logs to the console, but only if logToConsole is set to true !!!!!!!!!!!!!!TO BE REVIEWED !!!!!!!!!!!!!!
 ```
 
 ## Customisation

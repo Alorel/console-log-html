@@ -10,7 +10,8 @@ var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFIN
         }
     }
 
-    var originalKeys = Object.keys(original),
+    var originalSkipHtml = console.skipHtml,
+        originalKeys = Object.keys(original),
         originalClear = TYPE_UNDEFINED !== typeof console.clear ? console.clear : false,
         jQueryIsUp = typeof jQuery !== TYPE_UNDEFINED ? jQuery : false,
         extend = function () {
@@ -28,34 +29,40 @@ var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFIN
             return out;
         },
         register = function (method, target, options, includeTimestamp, logToConsole) {
-            console[method] = function (msg, onlyConsole) {
-                var finalMsg, li;
 
-                if (typeof onlyConsole !== TYPE_BOOLEAN) {
-                    onlyConsole = false;
-                }
-                if (!onlyConsole) {
-                    finalMsg = msg + ""; // "safe toString()" (works with null & undefined)
-                    if (finalMsg === INSTANCE_OBJECT_OBJECT) {
+            console.skipHtml[method] = function () {
+                original[method].apply(console, arguments);
+            }
+
+            console[method] = function () {
+                var finalMsg, msgPart, i, li;
+
+                finalMsg = "";
+                for (i = 0; i < arguments.length; i++) {
+                    msgPart = arguments[i] + ""; // "safe toString()" (works with null & undefined)
+                    if (msgPart === INSTANCE_OBJECT_OBJECT) {
                         try {
                             // Prefix with "Object" like in Firefox-, Chrome-, and node.js-output
-                            finalMsg = "Object " + JSON.stringify(msg);
+                            msgPart = "Object " + JSON.stringify(arguments[i]);
                         } catch (e) {
 
                         }
                     }
-                    finalMsg = (includeTimestamp ? "[" + (new Date()).toLocaleTimeString() + "] " : "") + finalMsg;
-                    li = document.createElement("li");
-                    li.setAttribute("data-level", method);
-                    li.innerText = finalMsg;
-                    if (options[method]) {
-                        li.setAttribute("class", options[method]);
-                    }
-                    target.insertBefore(li, target.firstChild);
+
+                    finalMsg += (i > 0 ? " " : "") + msgPart;
                 }
 
+                finalMsg = (includeTimestamp ? "[" + (new Date()).toLocaleTimeString() + "] " : "") + finalMsg;
+                li = document.createElement("li");
+                li.setAttribute("data-level", method);
+                li.innerText = finalMsg;
+                if (options[method]) {
+                    li.setAttribute("class", options[method]);
+                }
+                target.insertBefore(li, target.firstChild);
+
                 if (logToConsole) {
-                    original[method].apply(console, [msg]);
+                    console.skipHtml[method].apply(console, arguments);
                 }
             };
         };
@@ -83,6 +90,7 @@ var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFIN
          * @memberof ConsoleLogHTML
          */
         disconnect: function () {
+            console.skipHtml = originalSkipHtml;
             for (var i = 0; i < originalKeys.length; i++) {
                 console[originalKeys[i]] = original[originalKeys[i]];
             }
@@ -115,6 +123,8 @@ var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFIN
                 throw new Error("The target must be a HTML <ul> element");
             } else {
                 options = extend(ConsoleLogHTML.DEFAULTS, options || {});
+
+                console.skipHtml = {};
                 for (var i = 0; i < originalKeys.length; i++) {
                     register(originalKeys[i], target, options, includeTimestamp, logToConsole);
                 }
