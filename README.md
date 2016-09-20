@@ -8,6 +8,8 @@ A tiny 1.4 kB library that overrides the browser's `console.*` functions allowin
 
 [![NPM](https://nodei.co/npm/console-log-html.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/console-log-html)
 
+Migrating from `1.x` to `2.0`? See [MIGRATING.md](https://github.com/Alorel/console-log-html/blob/master/MIGRATING.md)
+
 # Installation:
 
 Simply include the file on your page:
