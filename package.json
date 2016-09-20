@@ -1,6 +1,6 @@
 {
   "name": "console-log-html",
-  "version": "1.2.11",
+  "version": "2.0.0",
   "description": "Copies/redirects console output to HTML",
   "main": "console-log-html.js",
   "scripts": {
@@ -25,12 +25,12 @@
     "console.log",
     "console.error"
   ],
-  "author": "Alorel <a.molcanovas@gmail.com> https://github.com/Alorel",
+  "author": "Alorel <a.molcanovas@gmail.com> (https://github.com/Alorel)",
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/Alorel/console-log-html/issues"
   },
-  "homepage": "https://github.com/Alorel/console-log-html#readme",
+  "homepage": "https://github.com/Alorel/console-log-html",
   "devDependencies": {
     "coveralls": "^2.11",
     "ink-docstrap": "^1.1",

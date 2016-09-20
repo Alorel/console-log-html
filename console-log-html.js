@@ -32,7 +32,7 @@ var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFIN
 
             console.skipHtml[method] = function () {
                 original[method].apply(console, arguments);
-            }
+            };
 
             console[method] = function () {
                 var finalMsg, msgPart, i, li;
