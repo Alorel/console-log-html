@@ -38,16 +38,18 @@
 			</li>
 			
 		</ul>
-		<div class="col-sm-3 col-md-3">
-            <form class="navbar-form" role="search">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
+        
 	</div>
 
 </div>
@@ -80,7 +82,8 @@ var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFIN
         }
     }
 
-    var originalKeys = Object.keys(original),
+    var originalSkipHtml = console.skipHtml,
+        originalKeys = Object.keys(original),
         originalClear = TYPE_UNDEFINED !== typeof console.clear ? console.clear : false,
         jQueryIsUp = typeof jQuery !== TYPE_UNDEFINED ? jQuery : false,
         extend = function () {
@@ -98,33 +101,40 @@ var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFIN
             return out;
         },
         register = function (method, target, options, includeTimestamp, logToConsole) {
-            console[method] = function (msg, onlyConsole) {
-                var finalMsg, li;
 
-                if (typeof onlyConsole !== TYPE_BOOLEAN) {
-                    onlyConsole = false;
-                }
-                if (!onlyConsole) {
-                    finalMsg = msg.toString();
-                    if (finalMsg === INSTANCE_OBJECT_OBJECT) {
+            console.skipHtml[method] = function () {
+                original[method].apply(console, arguments);
+            }
+
+            console[method] = function () {
+                var finalMsg, msgPart, i, li;
+
+                finalMsg = "";
+                for (i = 0; i &lt; arguments.length; i++) {
+                    msgPart = arguments[i] + ""; // "safe toString()" (works with null &amp; undefined)
+                    if (msgPart === INSTANCE_OBJECT_OBJECT) {
                         try {
-                            finalMsg = JSON.stringify(msg);
+                            // Prefix with "Object" like in Firefox-, Chrome-, and node.js-output
+                            msgPart = "Object " + JSON.stringify(arguments[i]);
                         } catch (e) {
 
                         }
                     }
-                    finalMsg = (includeTimestamp ? "[" + (new Date()).toLocaleTimeString() + "] " : "") + finalMsg;
-                    li = document.createElement("li");
-                    li.setAttribute("data-level", method);
-                    li.innerText = finalMsg;
-                    if (options[method]) {
-                        li.setAttribute("class", options[method]);
-                    }
-                    target.insertBefore(li, target.firstChild);
+
+                    finalMsg += (i > 0 ? " " : "") + msgPart;
                 }
 
+                finalMsg = (includeTimestamp ? "[" + (new Date()).toLocaleTimeString() + "] " : "") + finalMsg;
+                li = document.createElement("li");
+                li.setAttribute("data-level", method);
+                li.innerText = finalMsg;
+                if (options[method]) {
+                    li.setAttribute("class", options[method]);
+                }
+                target.insertBefore(li, target.firstChild);
+
                 if (logToConsole) {
-                    original[method].apply(console, [msg]);
+                    console.skipHtml[method].apply(console, arguments);
                 }
             };
         };
@@ -152,6 +162,7 @@ var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFIN
          * @memberof ConsoleLogHTML
          */
         disconnect: function () {
+            console.skipHtml = originalSkipHtml;
             for (var i = 0; i &lt; originalKeys.length; i++) {
                 console[originalKeys[i]] = original[originalKeys[i]];
             }
@@ -184,6 +195,8 @@ var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFIN
                 throw new Error("The target must be a HTML &lt;ul> element");
             } else {
                 options = extend(ConsoleLogHTML.DEFAULTS, options || {});
+
+                console.skipHtml = {};
                 for (var i = 0; i &lt; originalKeys.length; i++) {
                     register(originalKeys[i], target, options, includeTimestamp, logToConsole);
                 }
@@ -219,20 +232,22 @@ if (typeof module !== "undefined" &amp;&amp; typeof module.exports !== "undefine
 </div>
 </div>
 
-<div class="modal fade" id="searchResults">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Search results</h4>
-      </div>
-      <div class="modal-body"></div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div>
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
 
 <footer>
 
@@ -242,9 +257,9 @@ if (typeof module !== "undefined" &amp;&amp; typeof module.exports !== "undefine
 	</span>
 
 <span class="jsdoc-message">
-	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.1</a>
 	
-		on Monday, 23rd May, 2016
+		on Tuesday, 20th September, 2016
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
@@ -252,7 +267,9 @@ if (typeof module !== "undefined" &amp;&amp; typeof module.exports !== "undefine
 
 <script src="scripts/docstrap.lib.js"></script>
 <script src="scripts/toc.js"></script>
-<script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
 
 <script>
 $( function () {
@@ -262,7 +279,7 @@ $( function () {
 		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
 	} );
 
-	$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
 		var $this = $( this );
 
 		var example = $this.find( "code" );
@@ -298,8 +315,7 @@ $( function () {
 	} );
 	$( "#toc" ).toc( {
 		anchorName  : function ( i, heading, prefix ) {
-			var id = $( heading ).attr( "id" );
-			return id && id.replace(/\~/g, '-inner-').replace(/\./g, '-static-') || ( prefix + i );
+			return $( heading ).attr( "id" ) || ( prefix + i );
 		},
 		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
 		showAndHide : false,
@@ -342,11 +358,13 @@ $( function () {
 </script>
 
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		SearcherDisplay.init();
-	});
-</script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
 
 </body>
 </html>
