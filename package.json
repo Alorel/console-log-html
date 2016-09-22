@@ -26,6 +26,12 @@
     "console.error"
   ],
   "author": "Alorel <a.molcanovas@gmail.com> (https://github.com/Alorel)",
+  "contributors": [
+    {
+      "name": "ulrichb",
+      "url": "https://github.com/ulrichb"
+    }
+  ],
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/Alorel/console-log-html/issues"
