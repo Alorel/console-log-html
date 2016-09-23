@@ -56,7 +56,7 @@ describe("Test Disconnect", function () {
     });
 });
 
-describe("Test no timestamp", function () {
+describe("Test no timestamp option", function () {
     it("Disconnect", function () {
         console.clear();
         expect(TARGET_UL).toBeEmpty();
@@ -66,11 +66,36 @@ describe("Test no timestamp", function () {
     });
 
     it("Reconnect", function () {
-        ConsoleLogHTML.connect(TARGET_UL, null, false);
+        ConsoleLogHTML.connect(TARGET_UL, undefined, false);
         expect(TARGET_UL).toBeEmpty();
         console.debug("Reconnect");
         expect(TARGET_UL).not.toBeEmpty();
         expect(TARGET_UL.firstElementChild.innerText).toBe("Reconnect");
+    });
+});
+
+describe("Test append at bottom option", function () {
+    it("on", function () {
+        ConsoleLogHTML.connect(TARGET_UL, undefined, false, undefined, true);
+        console.clear();
+
+        console.debug("Entry 1");
+        console.debug("Entry 2");
+
+        expect(TARGET_UL.children.length).toBe(2);
+        expect(TARGET_UL.children[0].innerText).toBe("Entry 1");
+        expect(TARGET_UL.children[1].innerText).toBe("Entry 2");
+    });
+    it("off (default)", function () {
+        ConsoleLogHTML.connect(TARGET_UL, undefined, false, undefined, undefined /*default=false */);
+        console.clear();
+
+        console.debug("Entry 1");
+        console.debug("Entry 2");
+
+        expect(TARGET_UL.children.length).toBe(2);
+        expect(TARGET_UL.children[0].innerText).toBe("Entry 2");
+        expect(TARGET_UL.children[1].innerText).toBe("Entry 1");
     });
 });
 
