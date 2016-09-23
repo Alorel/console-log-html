@@ -1,3 +1,5 @@
+/* global describe, it, expect, console, $, ConsoleLogHTML */
+
 "use strict";
 
 var TARGET_UL = document.createElement("ul");
