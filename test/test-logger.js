@@ -44,15 +44,23 @@ describe("Test clear", function () {
     });
 });
 
+describe("Test Disconnect", function () {
+    it("resets skipHtml", function () {
+        expect(console.skipHtml).toBeDefined();
+
+        ConsoleLogHTML.disconnect();
+
+        expect(console.skipHtml).toBeUndefined(); // prove that `skipHtml` is being reset
+    });
+});
+
 describe("Test no timestamp", function () {
     it("Disconnect", function () {
         console.clear();
-        expect(console.skipHtml).toBeDefined();
         expect(TARGET_UL).toBeEmpty();
         ConsoleLogHTML.disconnect();
         console.debug("Disconnect");
         expect(TARGET_UL).toBeEmpty();
-        expect(console.skipHtml).toBeUndefined(); // prove that `skipHtml` is being reset
     });
 
     it("Reconnect", function () {
