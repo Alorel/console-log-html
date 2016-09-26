@@ -26,8 +26,3 @@ notifications:
 
 matrix:
   fast_finish: true
-
-branches:
-  only:
-    - master
-    - develop
