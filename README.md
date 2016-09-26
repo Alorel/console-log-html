@@ -1,4 +1,4 @@
-A tiny 1.4 kB library that overrides the browser's `console.*` functions allowing the logged messages to be displayed in HTML.
+A tiny library that overrides the browser's `console.*` functions allowing the logged messages to be displayed in HTML.
 
 [![Coverage Status](https://coveralls.io/repos/github/Alorel/console-log-html/badge.svg?branch=master)](https://coveralls.io/github/Alorel/console-log-html?branch=master)
 [![Build Status](https://travis-ci.org/Alorel/console-log-html.svg?branch=master)](https://travis-ci.org/Alorel/console-log-html)
