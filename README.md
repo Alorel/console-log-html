@@ -83,6 +83,7 @@ function connect(target, options, includeTimestamp, logToConsole){}
    ```
    - `logToConsole` - when set to `true` (the default value), appear both in the console *and* the &lt;ul&gt;; when set
    to `false`, they appear only in the &lt;ul&gt;.
+   - `appendAtBottom` - when set to `true` (default=`false`), log messages will be appended at the end of the &lt;ul&gt;-list.
 
 ----------
 
