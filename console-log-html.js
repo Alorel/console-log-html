@@ -28,7 +28,7 @@ var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFIN
 
             return out;
         },
-        register = function (method, target, options, includeTimestamp, logToConsole) {
+        register = function (method, target, options, includeTimestamp, logToConsole, appendAtBottom) {
 
             console.skipHtml[method] = function () {
                 original[method].apply(console, arguments);
@@ -59,7 +59,12 @@ var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFIN
                 if (options[method]) {
                     li.setAttribute("class", options[method]);
                 }
-                target.insertBefore(li, target.firstChild);
+
+                if (appendAtBottom){
+                    target.appendChild(li);
+                } else {
+                    target.insertBefore(li, target.firstChild);
+                }
 
                 if (logToConsole) {
                     console.skipHtml[method].apply(console, arguments);
@@ -107,9 +112,10 @@ var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFIN
          * default values.
          * @param {boolean} [includeTimestamp=true] Whether to include the log message timestamp in HTML
          * @param {boolean} [logToConsole=true] Whether to continue logging to the console as well as HTML.
+         * @param {boolean} [appendAtBottom=false] Whether to append the log messages at the end of the ul-list
          * @throws {Error} If target is not an &lt;ul&gt; element
          */
-        connect: function (target, options, includeTimestamp, logToConsole) {
+        connect: function (target, options, includeTimestamp, logToConsole, appendAtBottom) {
             if (jQueryIsUp && target instanceof jQueryIsUp) {
                 target = target[0];
             }
@@ -126,7 +132,7 @@ var ConsoleLogHTML = (function (original, methods, console, Object, TYPE_UNDEFIN
 
                 console.skipHtml = {};
                 for (var i = 0; i < originalKeys.length; i++) {
-                    register(originalKeys[i], target, options, includeTimestamp, logToConsole);
+                    register(originalKeys[i], target, options, includeTimestamp, logToConsole, appendAtBottom);
                 }
 
                 if (false !== originalClear) {
