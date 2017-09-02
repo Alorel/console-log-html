@@ -4,6 +4,7 @@ A tiny library that overrides the browser's `console.*` functions allowing the l
 [![Build Status](https://travis-ci.org/Alorel/console-log-html.svg?branch=master)](https://travis-ci.org/Alorel/console-log-html)
 [![Deps](https://david-dm.org/alorel/console-log-html.svg)](https://david-dm.org/alorel/console-log-html#info=dependencies&view=list)
 [![Deps](https://david-dm.org/alorel/console-log-html/dev-status.svg)](https://david-dm.org/alorel/console-log-html#info=devDependencies&view=list)
+[![Greenkeeper badge](https://badges.greenkeeper.io/Alorel/console-log-html.svg)](https://greenkeeper.io/)
 
 
 [![NPM](https://nodei.co/npm/console-log-html.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/console-log-html)
@@ -11,8 +12,6 @@ A tiny library that overrides the browser's `console.*` functions allowing the l
 Migrating from `1.x` to `2.0`? See [MIGRATING.md](https://github.com/Alorel/console-log-html/blob/master/MIGRATING.md)
 
 # Installation:
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/Alorel/console-log-html.svg)](https://greenkeeper.io/)
 
 Simply include the file on your page:
 ```html
