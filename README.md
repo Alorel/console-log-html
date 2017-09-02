@@ -12,6 +12,8 @@ Migrating from `1.x` to `2.0`? See [MIGRATING.md](https://github.com/Alorel/cons
 
 # Installation:
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Alorel/console-log-html.svg)](https://greenkeeper.io/)
+
 Simply include the file on your page:
 ```html
 <script type="application/javascript" src="console-log-html.min.js"></script>
