@@ -38,7 +38,7 @@
   },
   "homepage": "https://github.com/Alorel/console-log-html",
   "devDependencies": {
-    "coveralls": "^2.11",
+    "coveralls": "^3.0.0",
     "ink-docstrap": "^1.1",
     "jasmine-core": "^2.4",
     "jasmine-jquery": "^2.1",
