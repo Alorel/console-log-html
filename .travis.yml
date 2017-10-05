@@ -7,6 +7,7 @@ cache:
     - node_modules
     - ~/.npm
     - /usr/local/phantomjs
+    - ~/.nvm
 
 script:
   - npm run travis
