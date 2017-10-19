@@ -5,21 +5,11 @@ node_js:
 cache:
   directories:
     - node_modules
-    - ~/.npm
     - /usr/local/phantomjs
-    - ~/.nvm
 
-script:
-  - npm run travis
-  - npm prune
+script: npm run travis
 
 before_install:
     - export DISPLAY=:99.0
     - sh -e /etc/init.d/xvfb start
 
-notifications:
-  on_success: change
-  on_failure: always
-
-matrix:
-  fast_finish: true
