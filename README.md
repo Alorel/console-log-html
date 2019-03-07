@@ -61,7 +61,7 @@ The default css classes can be overriden in `ConsoleLogHTML.DEFAULTS`:
 
 The connect method has the following signature:
 ```javascript
-function connect(target, options, includeTimestamp, logToConsole){}
+function connect(target, options, includeTimestamp, logToConsole, appendAtBottom){}
 ```
 
    - `target` has already been covered - it's the &lt;ul&gt; element
